@@ -45,7 +45,7 @@ import (
 	"github.com/cockroachdb/cockroach/pkg/util/protoutil"
 	"github.com/cockroachdb/cockroach/pkg/util/syncutil"
 	"github.com/cockroachdb/cockroach/pkg/util/timeutil"
-	"github.com/dustin/go-humanize"
+	humanize "github.com/dustin/go-humanize"
 	"github.com/elastic/gosigar"
 	"github.com/pkg/errors"
 )
@@ -2522,6 +2522,7 @@ func goToCTxn(txn *roachpb.Transaction) C.DBTxn {
 	if txn != nil {
 		r.id = goToCSlice(txn.ID.GetBytes())
 		r.epoch = C.uint32_t(txn.Epoch)
+		r.sequence = C.int32_t(txn.Sequence)
 		r.max_timestamp = goToCTimestamp(txn.MaxTimestamp)
 	}
 	return r
